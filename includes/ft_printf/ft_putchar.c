@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wiferrei < wiferrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: wiferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/18 17:02:27 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/09/18 18:44:20 by wiferrei         ###   ########.fr       */
+/*   Created: 2023/04/26 15:03:31 by wiferrei          #+#    #+#             */
+/*   Updated: 2023/04/26 16:50:27 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
+#include "ft_printf.h"
 
-int	main(void)
+void	ft_putchar(char c, long int *chr_total)
 {
-	pid_t	server_pid;
-
-	server_pid = getpid();
-	ft_printf("Server PID: %d\n", server_pid);
+	write(1, &c, 1);
+	*chr_total += 1;
 }

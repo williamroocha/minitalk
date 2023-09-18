@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wiferrei < wiferrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/18 17:02:27 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/09/18 18:44:20 by wiferrei         ###   ########.fr       */
+/*   Created: 2023/04/13 17:52:22 by wiferrei          #+#    #+#             */
+/*   Updated: 2023/04/14 15:27:17 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
+#include "libft.h"
 
-int	main(void)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	pid_t	server_pid;
+	char	*p;
 
-	server_pid = getpid();
-	ft_printf("Server PID: %d\n", server_pid);
+	p = (char *)b;
+	while (len > 0)
+	{
+		p[len - 1] = c;
+		len--;
+	}
+	return (b);
 }

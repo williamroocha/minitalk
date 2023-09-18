@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wiferrei < wiferrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/18 17:02:27 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/09/18 18:44:20 by wiferrei         ###   ########.fr       */
+/*   Created: 2023/04/14 13:30:28 by wiferrei          #+#    #+#             */
+/*   Updated: 2023/04/14 15:14:26 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
+#include "libft.h"
 
-int	main(void)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	pid_t	server_pid;
+	char	*str;
+	size_t	i;
 
-	server_pid = getpid();
-	ft_printf("Server PID: %d\n", server_pid);
+	i = 0;
+	str = (char *)s;
+	while (i < n)
+	{
+		if ((unsigned char)str[i] == (unsigned char)c)
+		{
+			return ((char *)s + i);
+		}
+		i++;
+	}
+	return (NULL);
 }

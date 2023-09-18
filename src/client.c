@@ -6,8 +6,12 @@
 /*   By: wiferrei < wiferrei@student.42lisboa.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 16:45:27 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/09/18 17:20:40 by wiferrei         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:43:06 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
+
+int	main(int ac, char **av)
+{
+}

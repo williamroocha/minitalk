@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_unsgint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wiferrei < wiferrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: wiferrei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/18 17:02:27 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/09/18 18:44:20 by wiferrei         ###   ########.fr       */
+/*   Created: 2023/04/26 16:04:36 by wiferrei          #+#    #+#             */
+/*   Updated: 2023/04/26 16:04:37 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
+#include "ft_printf.h"
 
-int	main(void)
+void	ft_unsgint(unsigned int nbr, long int *chr_total)
 {
-	pid_t	server_pid;
-
-	server_pid = getpid();
-	ft_printf("Server PID: %d\n", server_pid);
+	if (nbr > 9)
+	{
+		ft_unsgint(nbr / 10, chr_total);
+		ft_unsgint(nbr % 10, chr_total);
+	}
+	else
+		ft_putchar(nbr + '0', chr_total);
 }

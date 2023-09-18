@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wiferrei < wiferrei@student.42lisboa.co    +#+  +:+       +#+        */
+/*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/18 17:02:27 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/09/18 18:44:20 by wiferrei         ###   ########.fr       */
+/*   Created: 2023/04/17 14:17:43 by wiferrei          #+#    #+#             */
+/*   Updated: 2023/04/18 11:07:40 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
+#include "libft.h"
 
-int	main(void)
+char	*ft_strrchr(const char *s, int c)
 {
-	pid_t	server_pid;
+	size_t	i;
 
-	server_pid = getpid();
-	ft_printf("Server PID: %d\n", server_pid);
+	i = ft_strlen(s) + 1;
+	while (i--)
+	{
+		if (s[i] == (char)c)
+			return ((char *)(s + i));
+	}
+	if (!s[i])
+	{
+		if (s[i] == (char)c)
+			return ((char *)(s + i));
+	}
+	return (NULL);
 }
