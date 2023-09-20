@@ -7,7 +7,8 @@ SOURCEFILES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 			  ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c \
 			  ft_strmapi.c ft_striteri.c ft_putchar_fd.c \
 			  ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c\
-			  ft_atoll.c
+			  ft_atoll.c ft_printf.c ft_putadd.c ft_puthexa.c \
+			  ft_putstr.c ft_putchar.c ft_putnbr.c ft_unsgint.c
 
 OBJECTS = $(patsubst %.c,obj/%.o,$(SOURCEFILES))
 

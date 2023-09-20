@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wiferrei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 15:34:39 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/04/26 15:34:41 by wiferrei         ###   ########.fr       */
+/*   Updated: 2023/09/20 19:39:58 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
 void	ft_putstr(char *str, long int *chr_total)
 {

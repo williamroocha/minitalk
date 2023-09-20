@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unsgint.c                                       :+:      :+:    :+:   */
+/*   ft_puthexa.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wiferrei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 16:04:36 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/04/26 16:04:37 by wiferrei         ###   ########.fr       */
+/*   Created: 2023/04/26 16:02:02 by wiferrei          #+#    #+#             */
+/*   Updated: 2023/09/20 19:39:40 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-void	ft_unsgint(unsigned int nbr, long int *chr_total)
+void	ft_puthexa(unsigned int nbr, long int *chr_total, int loworup)
 {
-	if (nbr > 9)
-	{
-		ft_unsgint(nbr / 10, chr_total);
-		ft_unsgint(nbr % 10, chr_total);
-	}
+	if (nbr >= 16)
+		ft_puthexa(nbr / 16, chr_total, loworup);
+	if (loworup)
+		ft_putchar(HEX_UPPER[nbr % 16], chr_total);
 	else
-		ft_putchar(nbr + '0', chr_total);
+		ft_putchar(HEX_LOWER[nbr % 16], chr_total);
 }
