@@ -1,29 +1,59 @@
-NAME_SERVER = server
-NAME_CLIENT = client
+NAME = minitalk
+CC = cc
+FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+SERVER = server
+CLIENT = client
 
-SRCS_CLIENT =  src/client.c
-SRCS_SERVER =  src/server.c
+SRC_DIR = src
+OBJ_DIR = obj
 
-OBJS_CLIENT = ${SRCS_CLIENT:.c=.o}
-OBJS_SERVER = ${SRCS_SERVER:.c=.o}
+SRC_SERVER = $(addprefix $(SRC_DIR)/server/, server.c)
+SRC_CLIENT = $(addprefix $(SRC_DIR)/client/, client.c)
 
-CC = gcc
-RM = rm -f
+OBJ_SERVER = $(addprefix $(OBJ_DIR)/server/, $(SERVER).o)
+OBJ_CLIENT = $(addprefix $(OBJ_DIR)/client/, $(CLIENT).o)
 
-all = client server
+LIBFT_DIR = ./includes/libft
+LIBFT = $(LIBFT_DIR)/libft.a
+LIBFT_INC = $(LIBFT_DIR)/libft.h
 
-client: ${OBJS_CLIENT}
-	${CC} ${OBJS_CLIENT} -o ${NAME_CLIENT}
+IFLAGS = -I./includes -I$(LIBFT_DIR)
+LFLAGS = -L$(LIBFT_DIR) -lft
 
-server: ${OBJS_SERVER}	
-	${CC} ${OBJS_SERVER} -o ${NAME_SERVER}
+all: $(NAME)
+
+$(NAME): $(LIBFT) $(OBJ_DIR) $(SERVER) $(CLIENT)
+	@echo "Done"
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+
+$(SERVER): $(OBJ_SERVER)
+	@$(CC) $(FLAGS) $(OBJ_SERVER) -o $(SERVER) $(LFLAGS)
+	@echo "server created"
+
+$(CLIENT): $(OBJ_CLIENT)
+	@$(CC) $(FLAGS) $(OBJ_CLIENT) -o $(CLIENT) $(LFLAGS)
+	@echo "client created"
+
+$(OBJ_DIR)/server/%.o: $(SRC_DIR)/server/%.c $(LIBFT_INC)
+	@$(CC) $(FLAGS) $(IFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/client/%.o: $(SRC_DIR)/client/%.c $(LIBFT_INC)
+	@$(CC) $(FLAGS) $(IFLAGS) -c $< -o $@
+
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
 
 clean:
-			${RM} ${OBJS_CLIENT} ${OBJS_SERVER} ${OBJS_CLIENTBONUS} ${OBJS_SERVERBONUS}
+	@$(RM) -r $(OBJ_DIR)
 
 fclean: clean
-			${RM} ${NAME_CLIENT} ${NAME_SERVER} ${NAME_CLIENTB} ${NAME_SERVERB}
+	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
+	@$(RM) $(SERVER)
+	@$(RM) $(CLIENT)
+	@echo "cleaned"
 
 re: fclean all
 
-.PHONY: all clean fclean bonus
+.PHONY: clean fclean all re
