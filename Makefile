@@ -37,19 +37,21 @@ $(CLIENT): $(OBJ_CLIENT)
 	@echo "client created"
 
 $(OBJ_DIR)/server/%.o: $(SRC_DIR)/server/%.c $(LIBFT_INC)
+	@mkdir -p $(@D)
 	@$(CC) $(FLAGS) $(IFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/client/%.o: $(SRC_DIR)/client/%.c $(LIBFT_INC)
+	@mkdir -p $(@D)
 	@$(CC) $(FLAGS) $(IFLAGS) -c $< -o $@
 
 $(LIBFT):
-	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
+	@$(MAKE) -s -C $(LIBFT_DIR)
 
 clean:
 	@$(RM) -r $(OBJ_DIR)
 
 fclean: clean
-	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
+	@$(MAKE) -s -C $(LIBFT_DIR) fclean
 	@$(RM) $(SERVER)
 	@$(RM) $(CLIENT)
 	@echo "cleaned"
