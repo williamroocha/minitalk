@@ -6,48 +6,46 @@
 /*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:15:31 by william           #+#    #+#             */
-/*   Updated: 2023/09/21 09:29:50 by wiferrei         ###   ########.fr       */
+/*   Updated: 2023/09/22 09:23:49 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
-int		g_received = 0;
-
-void	handle_sigusr(int signum, siginfo_t *siginfo, void *context)
+void	handle_sigusr(int signum, siginfo_t *info, void *ucontent)
 {
-	(void)context;
+	static int				bit_itr;
+	static unsigned char	c;
+
+	bit_itr = -1;
+	(void)ucontent;
+	if (bit_itr < 0)
+		bit_itr = 7;
 	if (signum == SIGUSR1)
+		c |= (1 << bit_itr);
+	bit_itr--;
+	if (bit_itr < 0 && c)
 	{
-		g_received = 1;
-		ft_printf("Received SIGUSR1 from PID: %d\n", siginfo->si_pid);
+		ft_putchar_fd(c, STDOUT_FILENO);
+		c = 0;
+		if (kill(info->si_pid, SIGUSR2) == -1)
+			ft_error_handler("Server failed to send SIGUSR2");
+		return ;
 	}
-	else if (signum == SIGUSR2)
-	{
-		g_received = 2;
-		ft_printf("Received SIGUSR2 from PID: %d\n", siginfo->si_pid);
-	}
-	else
-		ft_printf("Received signal: %d\n", signum);
+	if (kill(info->si_pid, SIGUSR1) == -1)
+		ft_error_handler("Failed to send SIGUSR1");
 }
 
 void	configure_sigaction(void)
 {
-	struct sigaction	sa;
+	struct sigaction	sa_newsignal;
 
-	sa.sa_sigaction = &handle_sigusr;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGUSR1, &sa, NULL) == -1)
-	{
+	sa_newsignal.sa_sigaction = &handle_sigusr;
+	sa_newsignal.sa_flags = SA_SIGINFO;
+	if (sigaction(SIGUSR1, &sa_newsignal, NULL) == -1)
 		ft_error_handler("Failed to configure SIGUSR1\n");
-		return (1);
-	}
-	if (sigaction(SIGUSR2, &sa, NULL) == -1)
-	{
+	if (sigaction(SIGUSR2, &sa_newsignal, NULL) == -1)
 		ft_error_handler("Failed to configure SIGUSR2\n");
-		return (1);
-	}
 }
 
 int	main(void)
@@ -59,16 +57,7 @@ int	main(void)
 	ft_printf("Waiting for signals...\n");
 	while (1)
 	{
-		if (g_received == 1)
-		{
-			ft_printf("Received 1\n");
-			g_received = 0;
-		}
-		else if (g_received == 2)
-		{
-			ft_printf("Received 0\n");
-			g_received = 0;
-		}
+		configure_sigaction();
 	}
 	return (EXIT_SUCCESS);
 }
