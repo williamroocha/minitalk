@@ -6,13 +6,23 @@
 /*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:15:31 by william           #+#    #+#             */
-/*   Updated: 2023/09/27 18:57:04 by wiferrei         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:56:12 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
 static int	g_bin[8] = {0};
+
+void	signal_error(int sig)
+{
+	const char	*msg;
+
+	msg = "Error: Failed to set signal handler.\n";
+	(void)sig;
+	ft_putstr_fd((char *)msg, 2);
+	exit(EXIT_FAILURE);
+}
 
 void	convert_to_txt(int *bin)
 {
@@ -51,8 +61,10 @@ void	save_bin(int bit)
 int	main(void)
 {
 	ft_printf("Server PID: %d\n", getpid());
-	signal(SIGUSR1, save_bin);
-	signal(SIGUSR2, save_bin);
+	if (signal(SIGUSR1, save_bin) == SIG_ERR)
+		signal_error(SIGUSR1);
+	if (signal(SIGUSR2, save_bin) == SIG_ERR)
+		signal_error(SIGUSR2);
 	while (1)
-		pause();
+		usleep(100);
 }
