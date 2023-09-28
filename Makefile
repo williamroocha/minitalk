@@ -1,6 +1,6 @@
 NAME = minitalk
 CC = cc
-FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+FLAGS = -Wall -Wextra -Werror 
 SERVER = server
 CLIENT = client
 

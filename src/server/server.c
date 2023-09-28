@@ -6,7 +6,7 @@
 /*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:15:31 by william           #+#    #+#             */
-/*   Updated: 2023/09/28 19:56:12 by wiferrei         ###   ########.fr       */
+/*   Updated: 2023/09/28 20:37:27 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	g_bin[8] = {0};
 
-void	signal_error(int sig)
+void	ft_signal_error(int sig)
 {
 	const char	*msg;
 
@@ -24,7 +24,7 @@ void	signal_error(int sig)
 	exit(EXIT_FAILURE);
 }
 
-void	convert_to_txt(int *bin)
+void	ft_convert_to_txt(int *bin)
 {
 	int		i;
 	int		base;
@@ -43,7 +43,7 @@ void	convert_to_txt(int *bin)
 	ft_putchar_fd(c, 1);
 }
 
-void	save_bin(int bit)
+void	ft_save_bin(int bit)
 {
 	static int	i;
 
@@ -53,7 +53,7 @@ void	save_bin(int bit)
 		g_bin[i++] = 0;
 	if (i == 8)
 	{
-		convert_to_txt(g_bin);
+		ft_convert_to_txt(g_bin);
 		i = 0;
 	}
 }
@@ -61,10 +61,10 @@ void	save_bin(int bit)
 int	main(void)
 {
 	ft_printf("Server PID: %d\n", getpid());
-	if (signal(SIGUSR1, save_bin) == SIG_ERR)
-		signal_error(SIGUSR1);
-	if (signal(SIGUSR2, save_bin) == SIG_ERR)
-		signal_error(SIGUSR2);
+	if (signal(SIGUSR1, ft_save_bin) == SIG_ERR)
+		ft_signal_error(SIGUSR1);
+	if (signal(SIGUSR2, ft_save_bin) == SIG_ERR)
+		ft_signal_error(SIGUSR2);
 	while (1)
 		usleep(100);
 }
