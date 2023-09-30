@@ -6,65 +6,44 @@
 /*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 22:15:31 by william           #+#    #+#             */
-/*   Updated: 2023/09/29 08:09:14 by wiferrei         ###   ########.fr       */
+/*   Updated: 2023/09/30 21:25:59 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
-static int	g_bin[8] = {0};
 
-void	ft_signal_error(int sig)
+void	handler_sig(int signal, siginfo_t *info, void *context)
 {
-	const char	*msg;
+	static unsigned int	c;
+	static int			bit;
 
-	msg = "Error: Failed to set signal handler.\n";
-	(void)sig;
-	ft_putstr_fd((char *)msg, 2);
-	exit(EXIT_FAILURE);
-}
-
-void	ft_convert_to_txt(int *bin)
-{
-	int		i;
-	int		base;
-	int		convert;
-	char	c;
-
-	base = 1;
-	i = 7;
-	convert = 0;
-	while (i > 0)
+	(void)context;
+	c = (signal == SIGUSR1) << bit | c;
+	bit++;
+	if (bit == 8)
 	{
-		convert += (base * bin[i--]);
-		base = base << 1;
-	}
-	c = (char)convert;
-	ft_putchar_fd(c, 1);
-}
-
-void	ft_save_bin(int bit)
-{
-	static int	i;
-
-	if (bit == SIGUSR1)
-		g_bin[i++] = 1;
-	else if (bit == SIGUSR2)
-		g_bin[i++] = 0;
-	if (i == 8)
-	{
-		ft_convert_to_txt(g_bin);
-		i = 0;
+		if (!c)
+			kill(info->si_pid, SIGUSR2);
+		else
+			ft_putchar_fd(c, 1);
+		bit = 0;
+		c = 0;
 	}
 }
 
 int	main(void)
 {
+	struct sigaction	sig;
+
 	ft_printf("Server PID: %d\n", getpid());
-	if (signal(SIGUSR1, ft_save_bin) == SIG_ERR)
-		ft_signal_error(SIGUSR1);
-	if (signal(SIGUSR2, ft_save_bin) == SIG_ERR)
-		ft_signal_error(SIGUSR2);
+	sig.sa_sigaction = handler_sig;
+	sigemptyset(&sig.sa_mask);
+	sig.sa_flags = SA_SIGINFO;
+	if (sigaction(SIGUSR1, &sig, 0) == -1)
+		ft_error_exit("Error: Failed to set SIGUSR1 handler");
+	if (sigaction(SIGUSR2, &sig, 0) == -1)
+		ft_error_exit("Error: Failed to set SIGUSR2 handler");
 	while (1)
-		usleep(100);
+		pause();
 }

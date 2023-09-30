@@ -2,7 +2,7 @@
 NAME = minitalk
 
 # Compiler and flags
-CC = cc
+CC = gcc
 FLAGS = -Wall -Wextra -Werror
 
 # Target names
@@ -30,7 +30,6 @@ BONUS_OBJ_CLIENT = $(addprefix $(OBJ_DIR)/client/, $(BONUS_CLIENT).o)
 # Libft directory and its targets
 LIBFT_DIR = ./includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
-LIBFT_INC = $(LIBFT_DIR)/libft.h
 
 # Include and library flags
 IFLAGS = -I./includes -I$(LIBFT_DIR)
@@ -45,6 +44,9 @@ $(NAME): $(LIBFT) $(OBJ_DIR) $(SERVER) $(CLIENT)
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
+$(LIBFT):
+	@$(MAKE) -s -C $(LIBFT_DIR)
+
 $(SERVER): $(OBJ_SERVER)
 	@$(CC) $(FLAGS) $(OBJ_SERVER) -o $(SERVER) $(LFLAGS)
 	@echo "server created"
@@ -54,11 +56,11 @@ $(CLIENT): $(OBJ_CLIENT)
 	@echo "client created"
 
 # Compiles server and client object files
-$(OBJ_DIR)/server/%.o: $(SRC_DIR)/server/%.c $(LIBFT_INC)
+$(OBJ_DIR)/server/%.o: $(SRC_DIR)/server/%.c
 	@mkdir -p $(@D)
 	@$(CC) $(FLAGS) $(IFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/client/%.o: $(SRC_DIR)/client/%.c $(LIBFT_INC)
+$(OBJ_DIR)/client/%.o: $(SRC_DIR)/client/%.c
 	@mkdir -p $(@D)
 	@$(CC) $(FLAGS) $(IFLAGS) -c $< -o $@
 
@@ -76,12 +78,13 @@ $(BONUS_CLIENT): $(BONUS_OBJ_CLIENT)
 
 # Cleaning rules
 clean:
-	@$(RM) -r $(OBJ_DIR)
+	@$(MAKE) -s -C $(LIBFT_DIR) clean
+	@rm -rf $(OBJ_DIR)
 	@echo "Objects cleaned"
 
 fclean: clean
 	@$(MAKE) -s -C $(LIBFT_DIR) fclean
-	@$(RM) $(SERVER) $(CLIENT) $(BONUS_SERVER) $(BONUS_CLIENT)
+	@rm -f $(SERVER) $(CLIENT) $(BONUS_SERVER) $(BONUS_CLIENT)
 	@echo "All cleaned"
 
 # Re-compilation rules

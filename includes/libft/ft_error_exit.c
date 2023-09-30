@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_error_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/18 15:47:20 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/09/30 21:13:08 by wiferrei         ###   ########.fr       */
+/*   Created: 2023/09/30 20:52:23 by wiferrei          #+#    #+#             */
+/*   Updated: 2023/09/30 20:53:56 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/types.h>
-# include <unistd.h>
-
-int		ft_str_is_digit(char *str);
-void	ft_send_bit(unsigned char c, int pid_id);
-
-#endif
+void	ft_error_exit(char *msg)
+{
+	ft_putstr_fd(msg, 2);
+	exit(EXIT_FAILURE);
+}
