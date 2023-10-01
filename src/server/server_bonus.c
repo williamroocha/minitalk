@@ -6,12 +6,11 @@
 /*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:19:44 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/09/30 21:32:51 by wiferrei         ###   ########.fr       */
+/*   Updated: 2023/09/30 21:47:38 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk_bonus.h"
-
 
 void	handler_sig(int signal, siginfo_t *info, void *context)
 {
