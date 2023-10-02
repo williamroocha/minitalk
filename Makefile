@@ -3,7 +3,7 @@ NAME = minitalk
 
 # Compiler and flags
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fPIE
 
 # Target names
 SERVER = server
@@ -39,7 +39,7 @@ LFLAGS = -L$(LIBFT_DIR) -lft
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(SERVER) $(CLIENT)
-	@echo "Done"
+	@echo "Compilation Done"
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
@@ -48,12 +48,20 @@ $(LIBFT):
 	@$(MAKE) -s -C $(LIBFT_DIR)
 
 $(SERVER): $(OBJ_SERVER)
-	@$(CC) $(FLAGS) $(OBJ_SERVER) -o $(SERVER) $(LFLAGS)
-	@echo "server created"
+	@if [ ! -e $(SERVER) ] || [ $(OBJ_SERVER) -nt $(SERVER) ]; then \
+		$(CC) $(FLAGS) -pie $(OBJ_SERVER) -o $(SERVER) $(LFLAGS); \
+		echo "server created"; \
+	else \
+		echo "server is up-to-date"; \
+	fi
 
 $(CLIENT): $(OBJ_CLIENT)
-	@$(CC) $(FLAGS) $(OBJ_CLIENT) -o $(CLIENT) $(LFLAGS)
-	@echo "client created"
+	@if [ ! -e $(CLIENT) ] || [ $(OBJ_CLIENT) -nt $(CLIENT) ]; then \
+		$(CC) $(FLAGS) $(OBJ_CLIENT) -o $(CLIENT) $(LFLAGS); \
+		echo "client created"; \
+	else \
+		echo "client is up-to-date"; \
+	fi
 
 # Compiles server and client object files
 $(OBJ_DIR)/server/%.o: $(SRC_DIR)/server/%.c
@@ -66,15 +74,23 @@ $(OBJ_DIR)/client/%.o: $(SRC_DIR)/client/%.c
 
 # Bonus rules: Compiles the bonus part of the project
 bonus: $(LIBFT) $(OBJ_DIR) $(BONUS_SERVER) $(BONUS_CLIENT)
-	@echo "Bonus Done"
+	@echo "Bonus Compilation Done"
 
 $(BONUS_SERVER): $(BONUS_OBJ_SERVER)
-	@$(CC) $(FLAGS) $(BONUS_OBJ_SERVER) -o $(BONUS_SERVER) $(LFLAGS)
-	@echo "server_bonus created"
+	@if [ ! -e $(BONUS_SERVER) ] || [ $(BONUS_OBJ_SERVER) -nt $(BONUS_SERVER) ]; then \
+		$(CC) $(FLAGS) $(BONUS_OBJ_SERVER) -o $(BONUS_SERVER) $(LFLAGS); \
+		echo "server_bonus created"; \
+	else \
+		echo "server_bonus is up-to-date"; \
+	fi
 
 $(BONUS_CLIENT): $(BONUS_OBJ_CLIENT)
-	@$(CC) $(FLAGS) $(BONUS_OBJ_CLIENT) -o $(BONUS_CLIENT) $(LFLAGS)
-	@echo "client_bonus created"
+	@if [ ! -e $(BONUS_CLIENT) ] || [ $(BONUS_OBJ_CLIENT) -nt $(BONUS_CLIENT) ]; then \
+		$(CC) $(FLAGS) $(BONUS_OBJ_CLIENT) -o $(BONUS_CLIENT) $(LFLAGS); \
+		echo "client_bonus created"; \
+	else \
+		echo "client_bonus is up-to-date"; \
+	fi
 
 # Cleaning rules
 clean:

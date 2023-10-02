@@ -23,7 +23,7 @@ COMPILER = cc
 
 AR = ar
 RM = rm -f
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fPIC
 
 .PHONY: all bonus clean fclean re
 

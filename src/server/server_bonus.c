@@ -6,12 +6,20 @@
 /*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:19:44 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/09/30 21:47:38 by wiferrei         ###   ########.fr       */
+/*   Updated: 2023/10/02 16:10:20 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk_bonus.h"
 
+/*
+This function handles incoming signals from the client. 
+For every bit received from the client, it accumulates the 
+bits to form a character. When all 8 bits of a character 
+are received, it either prints the character or, in the 
+case of a null character, acknowledges the receipt of the 
+entire message to the client and starts a new line.
+*/
 void	handler_sig(int signal, siginfo_t *info, void *context)
 {
 	static unsigned int	c;
@@ -23,7 +31,10 @@ void	handler_sig(int signal, siginfo_t *info, void *context)
 	if (bit == 8)
 	{
 		if (!c)
+		{
 			kill(info->si_pid, SIGUSR2);
+			ft_putchar_fd('\n', 1);
+		}
 		else
 			ft_putchar_fd(c, 1);
 		bit = 0;
@@ -31,6 +42,12 @@ void	handler_sig(int signal, siginfo_t *info, void *context)
 	}
 }
 
+/*
+The main function initializes the server:
+- Prints its own PID so that clients can send messages to it.
+- Sets up a signal handler to handle incoming signals (bits) from clients.
+- Continuously waits for signals using a pause loop.
+*/
 int	main(void)
 {
 	struct sigaction	sig;

@@ -5,12 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/18 22:15:31 by william           #+#    #+#             */
-/*   Updated: 2023/09/30 21:47:42 by wiferrei         ###   ########.fr       */
+/*   Created: 2023/10/02 10:02:27 by wiferrei          #+#    #+#             */
+/*   Updated: 2023/10/02 15:52:23 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
+
+/*
+This function handles incoming signals from the client. 
+It accumulates the bits in a static variable 'c' and 
+prints the corresponding character once all 8 bits are received.
+*/
 
 void	handler_sig(int signal, siginfo_t *info, void *context)
 {
@@ -23,7 +29,10 @@ void	handler_sig(int signal, siginfo_t *info, void *context)
 	if (bit == 8)
 	{
 		if (!c)
+		{
 			kill(info->si_pid, SIGUSR2);
+			ft_putchar_fd('\n', 1);
+		}
 		else
 			ft_putchar_fd(c, 1);
 		bit = 0;
