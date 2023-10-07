@@ -12,7 +12,7 @@ Minitalk is a program that facilitates communication between two distinct proces
 - [Acknowledgments](#acknowledgments)
 - [Bonus Features](#bonus-features)
 - [Conclusion](#conclusion)
-- [Credits](credits)
+- [Credits](#credits)
 
 ## Description
 
@@ -51,26 +51,22 @@ Replace `<server-pid>` with the PID displayed by the server upon startup. Replac
 ## Functionality
 
 ### Signal Handling:
-
 The primary method of communication is through the signals SIGUSR1 and SIGUSR2. A binary representation of each character in the string is sent bit by bit. For instance, if the bit is 1, SIGUSR1 is sent; if 0, SIGUSR2 is dispatched.
 
 ### Server Operation:
-
-	- Displays its PID upon launch.
-    - Waits and listens for incoming signals.
-    - Reconstructs each character from the received bits.
-    - Prints the character once fully received.
-    - Continues to receive and print characters until the client signals the end of the transmission.
+- Displays its PID upon launch.
+- Waits and listens for incoming signals.
+- Reconstructs each character from the received bits.
+- Prints the character once fully received.
+- Continues to receive and print characters until the client signals the end of the transmission.
 
 ### Client Operation:
-
-	- Validates the provided server PID.
-	- Converts the message string into a series of bits.
-	- Transmits each bit as a SIGUSR1 or SIGUSR2 signal to the server.
-	- Signals the end of the message transmission.
+- Validates the provided server PID.
+- Converts the message string into a series of bits.
+- Transmits each bit as a SIGUSR1 or SIGUSR2 signal to the server.
+- Signals the end of the message transmission.
 
 ## Acknowledgments
-
 - The server has to quickly display the string. For a standard of quickness, if 100 characters take longer than 1 second, it's considered too lengthy.
 - The server should be capable of receiving strings from various clients sequentially without restarting.
 - The entire communication is solely based on UNIX signals.
@@ -78,15 +74,12 @@ The primary method of communication is through the signals SIGUSR1 and SIGUSR2. 
 ## Bonus Features
 
 ### Server Acknowledgment:
-
 After successfully receiving a message, the server sends an acknowledgment signal back to the client.
 
 ### Unicode Character Support:
-
 Both the client and server are enhanced to support and accurately convey Unicode characters.
 
 ## Conclusion
-
 Remember, this project showcases the power of UNIX signals and their potential use in inter-process communication. The uniqueness of Minitalk is in its simplicity, harnessing the fundamental building blocks of the UNIX operating system to achieve a basic but robust communication platform.
 
 ## Credits 
