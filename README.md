@@ -11,6 +11,8 @@ Minitalk is a program that facilitates communication between two distinct proces
 - [Functionality](#functionality)
 - [Acknowledgments](#acknowledgments)
 - [Bonus Features](#bonus-features)
+- [Conclusion](#conclusion)
+- [Credits](credits)
 
 ## Description
 
@@ -83,6 +85,10 @@ After successfully receiving a message, the server sends an acknowledgment signa
 
 Both the client and server are enhanced to support and accurately convey Unicode characters.
 
+## Conclusion
 
 Remember, this project showcases the power of UNIX signals and their potential use in inter-process communication. The uniqueness of Minitalk is in its simplicity, harnessing the fundamental building blocks of the UNIX operating system to achieve a basic but robust communication platform.
 
+## Credits 
+ - Developed by: williamroocha
+ - Project for: 42 Lisboa
