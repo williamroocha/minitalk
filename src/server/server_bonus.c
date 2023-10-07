@@ -6,21 +6,21 @@
 /*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:19:44 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/10/02 16:10:20 by wiferrei         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:49:55 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk_bonus.h"
 
 /*
-This function handles incoming signals from the client. 
-For every bit received from the client, it accumulates the 
-bits to form a character. When all 8 bits of a character 
-are received, it either prints the character or, in the 
-case of a null character, acknowledges the receipt of the 
-entire message to the client and starts a new line.
+** Handles incoming signals (SIGUSR1 and SIGUSR2) from the client. 
+** Constructs characters from the received bits. Once an entire character 
+** is constructed, it is printed. If the received character is a null character, 
+** it sends an acknowledgment signal (SIGUSR2) back to the client and prints 
+** a new line.
 */
-void	handler_sig(int signal, siginfo_t *info, void *context)
+
+void	ft_handler_sig(int signal, siginfo_t *info, void *context)
 {
 	static unsigned int	c;
 	static int			bit;
@@ -43,17 +43,19 @@ void	handler_sig(int signal, siginfo_t *info, void *context)
 }
 
 /*
-The main function initializes the server:
-- Prints its own PID so that clients can send messages to it.
-- Sets up a signal handler to handle incoming signals (bits) from clients.
-- Continuously waits for signals using a pause loop.
+** Main function of the server:
+** 1. Prints the server's PID.
+** 2. Sets up the signal handlers for incoming messages.
+** 3. Waits indefinitely for signals from the client, handling 
+**    them as they come in and sending acknowledgments as needed.
 */
+
 int	main(void)
 {
 	struct sigaction	sig;
 
 	ft_printf("Server PID: %d\n", getpid());
-	sig.sa_sigaction = handler_sig;
+	sig.sa_sigaction = ft_handler_sig;
 	sigemptyset(&sig.sa_mask);
 	sig.sa_flags = SA_SIGINFO;
 	if (sigaction(SIGUSR1, &sig, 0) == -1)

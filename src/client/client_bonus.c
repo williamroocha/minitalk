@@ -6,17 +6,17 @@
 /*   By: wiferrei <wiferrei@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:20:22 by wiferrei          #+#    #+#             */
-/*   Updated: 2023/10/02 16:13:01 by wiferrei         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:55:00 by wiferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk_bonus.h"
 
 /*
-Handles the SIGUSR2 signal indicating the server has 
-successfully received the message, then prints confirmation 
-and terminates the client.
+** Handles the SIGUSR2 signal to confirm that the server has received
+** the message. On receipt, it prints a confirmation message and exits.
 */
+
 void	ft_handler(int signal)
 {
 	if (signal == SIGUSR2)
@@ -27,8 +27,9 @@ void	ft_handler(int signal)
 }
 
 /*
-Check if the string is composed only of digits characters
+** Checks whether the string consists only of digit characters.
 */
+
 int	ft_str_is_digit(char *str)
 {
 	while (*str)
@@ -41,10 +42,11 @@ int	ft_str_is_digit(char *str)
 }
 
 /*
-For each bit of the unsigned integer 'c', sends a signal (SIGUSR1 or SIGUSR2) 
-to the server, depending on whether the bit is 0 or 1. The function 
-continuously sends all bits of the given integer.
+** Sends each bit of the character 'c' as a signal (SIGUSR1 or SIGUSR2)
+** to the server. Whether the bit is 0 or 1 determines the signal type.
+** Continuously sends all bits of the character.
 */
+
 void	ft_send_bit(unsigned int c, int pid_id, int msg_size)
 {
 	int	bit;
@@ -63,9 +65,9 @@ void	ft_send_bit(unsigned int c, int pid_id, int msg_size)
 }
 
 /*
-Sends each character of the provided message to the server using 
-the ft_send_bit function. After the entire message is sent, it sends 
-a null character to signal the end of the message.
+** Sends each character of the message to the server using
+** the ft_send_bit function. Once the message is sent,
+** it signals the end of the message by sending a null character.
 */
 void	ft_send_message(char *txt, int pid_id)
 {
@@ -83,12 +85,12 @@ void	ft_send_message(char *txt, int pid_id)
 }
 
 /*
-The main function of the client:
-- Checks if the provided PID is a valid number.
-- Checks if the provided PID corresponds to a running process.
-- If the correct arguments are provided, it sets up the signal handler
-  and sends the message to the server.
-- After sending, it goes into a pause loop awaiting acknowledgment.
+** Main function of the client:
+** 1. Validates the PID.
+** 2. Checks the process associated with the PID.
+** 3. Sets up the signal handler for acknowledgments.
+** 4. If correct arguments are provided, sends the message to the server.
+** 5. Pauses indefinitely, waiting for the server acknowledgment.
 */
 int	main(int ac, char **av)
 {
