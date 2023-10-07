@@ -67,7 +67,7 @@ The primary method of communication is through the signals SIGUSR1 and SIGUSR2. 
 - Signals the end of the message transmission.
 
 ## Acknowledgments
-- The server has to quickly display the string. For a standard of quickness, if 100 characters take longer than 1 second, it's considered too lengthy.
+- The server is designed for rapid string display. As a benchmark, any delay exceeding 1 second for 100 characters is deemed excessive.
 - The server should be capable of receiving strings from various clients sequentially without restarting.
 - The entire communication is solely based on UNIX signals.
 
@@ -83,5 +83,5 @@ Both the client and server are enhanced to support and accurately convey Unicode
 Remember, this project showcases the power of UNIX signals and their potential use in inter-process communication. The uniqueness of Minitalk is in its simplicity, harnessing the fundamental building blocks of the UNIX operating system to achieve a basic but robust communication platform.
 
 ## Credits 
- - Developed by: williamroocha
- - Project for: 42 Lisboa
+- Developed by: [williamroocha](https://github.com/williamroocha)
+- Project for: [42 Lisboa](https://www.42lisboa.com/)
